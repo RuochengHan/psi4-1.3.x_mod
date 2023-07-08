@@ -1,3 +1,37 @@
+## Psi4-v1.3.2
+This version still requires python 3.8.
+This version does not require Libint2, only Libint
+
+We can use Conda to intall some required packages:
+```bash
+$ conda install -c conda-forge libstdcxx-ng=12
+$ conda install python=3.8
+$ conda install mkl-devel numpy=1.20 networkx msgpack-python mpfr eigen # ( and cmake)
+$ conda install -c conda-forge openmp pydantic pint deepdiff # (deepdiff need for v1.3.2)
+```
+
+Prepare a do-configure file: (Conda-mkl)
+```bash
+cmake -S. -B"/home/michaelbishop/softwares/psi4_mod/psi4-1.3.x/compile-psi4" \
+        -DCMAKE_INSTALL_PREFIX="/home/michaelbishop/softwares/psi4_mod/psi4-1.3.x/install-psi4" \
+        -DCMAKE_PREFIX_PATH="/home/michaelbishop/softwares/psi4_mod/psi4-1.3.x/install-psi4/externals/install-libint" \
+        -DMAX_AM_ERI=6 \
+        -DENABLE_gdma=ON \
+        -DBUILD_SHARED_LIBS=ON \
+        -DCMAKE_C_COMPILER=/opt/gcc/8.3.0/bin/gcc \
+        -DCMAKE_CXX_COMPILER=/opt/gcc/8.3.0/bin/g++ \
+        -DCMAKE_Fortran_COMPILER=/opt/gcc/8.3.0/bin/gfortran \
+        -DBLAS_TYPE=MKL \
+        -DLAPACK_TYPE=MKL \
+        -DBLAS_LIBRARIES=/home/michaelbishop/anaconda3/envs/psi4mod/lib/libmkl_rt.so \
+        -DLAPACK_LIBRARIES=/home/michaelbishop/anaconda3/envs/psi4mod/lib/libmkl_rt.so \ # Conda-mkl
+        -DBLAS_INCLUDE_DIRS=/home/michaelbishop/anaconda3/envs/psi4mod/include/ \
+        -DLAPACK_INCLUDE_DIRS=/home/michaelbishop/anaconda3/envs/psi4mod/include/ \
+        -DOpenMP_LIBRARY_DIRS=/home/michaelbishop/anaconda3/envs/psi4mod/lib/
+```
+Above is the one conda-psi4 uses, and is the quickest.
+
+
 # <img src="https://github.com/psi4/psi4media/blob/master/logos-psi4/psi4square.png" height=150>
 
 | **Status** | [![Travis build](https://img.shields.io/travis/psi4/psi4/master.svg?logo=linux&logoColor=white)](https://travis-ci.org/psi4/psi4) [![Azure DevOps builds](https://img.shields.io/azure-devops/build/psi4/e80489d7-9619-4512-8e7b-255e355b3ab8/1/master.svg?logo=windows)](https://dev.azure.com/psi4/psi4/_build?definitionId=1) [![Codecov coverage](https://img.shields.io/codecov/c/github/psi4/psi4.svg?logo=Codecov&logoColor=white)](https://codecov.io/gh/psi4/psi4) [![LGTM analysis](https://img.shields.io/lgtm/grade/python/g/psi4/psi4.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/psi4/psi4/context:python) |
